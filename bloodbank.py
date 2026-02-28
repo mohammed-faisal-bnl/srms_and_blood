@@ -339,9 +339,13 @@ def admin_dashboard(admin_id):
         cursor = db.cursor()
 
         cursor.execute("""
-            SELECT request_id, patient_id, units_requested, request_date
-            FROM Request
-            WHERE status='Pending'
+            SELECT r.request_id, r.units_requested, r.request_date,
+               p.name, p.phone, p.hospital_name,
+               bg.group_name
+        FROM Request r
+        JOIN Patient p ON r.patient_id = p.patient_id
+        JOIN Blood_Group bg ON p.blood_group_id = bg.blood_group_id
+        WHERE r.status='Pending'
         """)
 
         results = cursor.fetchall()
@@ -353,8 +357,8 @@ def admin_dashboard(admin_id):
             for r in results:
                 request_box.insert(
                     tk.END,
-                    f"Request ID: {r[0]} | Patient ID: {r[1]} | "
-                    f"Units: {r[2]} | Date: {r[3]}\n"
+                    f"Request ID: {r[0]} | Units: {r[1]} | Date: {r[2]}\n"
+                    f"Patient Name: {r[3]} | Phone: {r[4]} | Hospital: {r[5]} | Blood Group: {r[6]}\n\n"
                 )
         else:
             request_box.insert(tk.END, "No Pending Requests\n")
