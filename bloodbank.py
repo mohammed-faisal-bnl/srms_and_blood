@@ -29,7 +29,7 @@ def make_window(title, w=440, h=520, bar=None):
     win.title(title)
     win.geometry(f"{w}x{h}")
     win.configure(bg=BG)
-    win.resizable(False, False)
+    win.resizable(True, True)
     tk.Frame(win, bg=bar or ACCENT, height=4).pack(fill="x")
     return win
 
@@ -118,7 +118,7 @@ root = tk.Tk()
 root.title("BloodBank — Management System")
 root.geometry("540x660")
 root.configure(bg=BG)
-root.resizable(False, False)
+root.resizable(True, True)
 
 tk.Frame(root, bg=ACCENT, height=5).pack(fill="x")
 
